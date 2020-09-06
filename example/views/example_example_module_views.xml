@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_example_module_form" model="ir.ui.view">
+            <field name="name">example.module.form</field>
+            <field name="model">example.module</field>
+            <field name="arch" type="xml">
+                <form string="Account">
+                   <sheet>
+
+                       <div class="oe_title">
+                           <h1>
+                             <field name="name" placeholder="name"/>
+                           </h1>
+                       </div>
+                       <group>
+                           <group name="left_main_group">
+                             <field name="gender_group" />
+                             <field name="sign_date" />
+                             <field name="is_active"/>
+                           </group>
+                           <group name="right_main_group">
+                             <field name="note" />
+                           </group>
+
+                       </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_example_module_list" model="ir.ui.view">
+            <field name="name">example.module.list</field>
+            <field name="model">example.module</field>
+            <field name="arch" type="xml">
+                <tree create="1" delete="1" multi_edit="1" string="Chart of accounts">
+                    <field name="name"/>
+                    <field name="gender_group" />
+                    <field name="sign_date" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_example_module_kanban" model="ir.ui.view">
+            <field name="name">example.module.kanban</field>
+            <field name="model">example.module</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_global_click">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <strong><field name="name"/></strong>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="view_example_module_search" model="ir.ui.view">
+            <field name="name">example.module.search</field>
+            <field name="model">example.module</field>
+            <field name="arch" type="xml">
+                <search string="Example Module">
+                    <field name="name" filter_domain="['|', ('name','ilike',self), ('code','=like',str(self)+'%')]" string="Name"/>
+                    <separator/>
+                    <filter string="Active with Entries" name="actived" domain="[('is_active', '=', True)]"/>
+                    <filter string="Active Not" name="unactived" domain="[('is_active', '=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter string="Gender" name="gendertype" domain="" context="{'group_by':'gender_group'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_example_module_form" model="ir.actions.act_window">
+            <field name="name">Example Module</field>
+            <field name="res_model">example.module</field>
+            <field name="view_mode">tree,kanban,form</field>
+            <field name="search_view_id" ref="view_example_module_search"/>
+            <field name="view_id" ref="view_example_module_list"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Add a new Record
+              </p><p>
+                Comment Note...
+              </p>
+            </field>
+            <field name="context">{'search_default_actived': True}</field>
+        </record>
+    <menuitem id="example_module_menu_root"
+            name="Example"
+            sequence="7" action="example.action_example_module_form" groups="base.group_user"/>
+    </data>
+</odoo>
