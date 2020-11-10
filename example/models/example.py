@@ -9,7 +9,7 @@ class ExampleModule(models.Model):
     _name = "example.module"
     _description = "example module"
 
-
+    # test
 
     name = fields.Char(string='Name', required=True)
     gender_group = fields.Selection([
